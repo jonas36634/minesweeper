@@ -60,3 +60,7 @@ python3 Tests/browser.py https://minesweeper.kernport.com
 ```
 
 Erwartet werden gültiges HTTPS, Status 200 auf der Hauptdomain und eine permanente Weiterleitung auf denselben Pfad samt Query unter der .com-Adresse. Browserprüfungen verwenden isolierte lokale Profile.
+
+## Deployment über GitHub Pages
+
+`bash ops/build.sh && bash ops/pages.sh` überträgt die statische Anwendung mit `.nojekyll` und `CNAME` auf den Branch `gh-pages`. In den Pages-Einstellungen des Repositorys als Quelle „Deploy from a branch“, `gh-pages` und `/(root)` konfigurieren und die benutzerdefinierte Domain `minesweeper.kernport.com` setzen. Für diese Variante lautet der DNS-Eintrag `minesweeper.kernport.com. CNAME jonas36634.github.io.`. Nach erfolgreicher Domain- und Zertifikatsprüfung „Enforce HTTPS“ aktivieren. Für `minesweeper.kernport.de` wird beim bestehenden DNS-/Webanbieter eine HTTPS-fähige permanente Weiterleitung auf `https://minesweeper.kernport.com` eingerichtet, die Pfad und Query übernimmt. Ein CNAME allein bewirkt keine HTTP-Weiterleitung.
