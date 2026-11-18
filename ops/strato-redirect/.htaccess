@@ -1,0 +1,6 @@
+# Im eigenen Webspace-Verzeichnis der Subdomain minesweeper.kernport.de.
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^minesweeper\.kernport\.de(?::[0-9]+)?$ [NC]
+# Der originale Request enthält auch bei Leerzeichen den URL-kodierten Pfad.
+RewriteCond %{THE_REQUEST} "^[^[:space:]]+[[:space:]]+(/[^?[:space:]]*)"
+RewriteRule ^ https://minesweeper.kernport.com%1 [R=301,L,NE]

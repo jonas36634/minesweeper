@@ -64,3 +64,10 @@ Erwartet werden gültiges HTTPS, Status 200 auf der Hauptdomain und eine permane
 ## Deployment über GitHub Pages
 
 `bash ops/build.sh && bash ops/pages.sh` überträgt die statische Anwendung mit `.nojekyll` und `CNAME` auf den Branch `gh-pages`. In den Pages-Einstellungen des Repositorys als Quelle „Deploy from a branch“, `gh-pages` und `/(root)` konfigurieren und die benutzerdefinierte Domain `minesweeper.kernport.com` setzen. Für diese Variante lautet der DNS-Eintrag `minesweeper.kernport.com. CNAME jonas36634.github.io.`. Nach erfolgreicher Domain- und Zertifikatsprüfung „Enforce HTTPS“ aktivieren. Für `minesweeper.kernport.de` wird beim bestehenden DNS-/Webanbieter eine HTTPS-fähige permanente Weiterleitung auf `https://minesweeper.kernport.com` eingerichtet, die Pfad und Query übernimmt. Ein CNAME allein bewirkt keine HTTP-Weiterleitung.
+
+### STRATO für die beiden Spieladressen
+
+- In der Domainverwaltung von `kernport.com` die Subdomain `minesweeper` auswählen bzw. anlegen. Für diesen Namen den CNAME auf `jonas36634.github.io.` setzen. In GitHub Pages ist `minesweeper.kernport.com` als eigene Domain eingetragen. Nach Ausstellung des Zertifikats HTTPS erzwingen.
+- Für `minesweeper.kernport.de` muss der Dienst, der die Weiterleitung ausliefert, ein gültiges Zertifikat für genau diesen Namen haben. Bietet das bestehende STRATO-Paket HTTPS-Weiterleitungen mit Erhalt von Pfad und Query, eine permanente Weiterleitung auf `https://minesweeper.kernport.com` einrichten.
+- Bei STRATO-Webspace mit Apache und SSL kann stattdessen die .de-Subdomain einem eigenen Verzeichnis zugeordnet werden. Die Datei `ops/strato-redirect/.htaccess` dort als `.htaccess` ablegen und das Zertifikat der .de-Subdomain zuordnen. Die Regel betrifft nur den Spiel-Host. Für diesen Weg zeigt die .de-Subdomain auf den STRATO-Webspace.
+- Prüffall: Ein HTTPS-Aufruf von `/style.css?probe=1` auf der .de-Adresse muss mit Status 301 und `Location: https://minesweeper.kernport.com/style.css?probe=1` antworten. Auf der .com-Adresse muss dieselbe Ressource mit gültigem HTTPS und Status 200 laden.
